@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from dotenv import load_dotenv
 
 def save_cookies():
     options = Options()
@@ -26,6 +27,8 @@ def save_cookies():
     driver.quit()
 
 def load_cookies_and_post(title, content):
+    load_dotenv()
+    blog_name = os.getenv("TISTORY_BLOG_NAME")
     options = Options()
     # options.add_argument('--headless')  # 자동 실행 시 headless 모드 추천
     options.add_argument('--no-sandbox')
@@ -47,7 +50,8 @@ def load_cookies_and_post(title, content):
 
     # 로그인된 상태로 블로그 글쓰기 페이지 이동
     
-    driver.get("https://iam-ai.tistory.com/manage/newpost")
+    newpost_url = f"https://{blog_name}.tistory.com/manage/newpost"
+    driver.get(newpost_url)
     time.sleep(3)
 
     # 작성 중인 글 사용 여부 alert가 뜨면 '아니오' 클릭
